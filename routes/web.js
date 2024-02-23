@@ -35,9 +35,7 @@ class WebRouter {
             var dir = __dirname;
             var p = path.resolve( dir, "../public/pages/", "index");
 
-            var networkInterfaces = os.networkInterfaces();
-            console.log(networkInterfaces);
-            let ipaddress = this.getIPAddress(networkInterfaces);
+            let ipaddress = JSON.parse(process.env.ADDRESS).address;
 
             res.render(p, { host_name: ipaddress  } )
         });

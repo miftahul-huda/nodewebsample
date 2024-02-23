@@ -11,7 +11,7 @@ const {DatastoreStore} = require('@google-cloud/connect-datastore');
 
 var Initialization = require("./initialization")
 
-
+const ip = process.env.APPLICATION_ADDRESS;
 const port = process.env.APPLICATION_PORT;
 const appTitle = process.env.APPLICATION_TITLE;
 //console.log(port)
@@ -76,10 +76,15 @@ app.use(function(req, res, next) {
   next(createError(404));
 });
 
-app.listen(port)
 
-Initialization.initializeDatabase();
+let server = app.listen(port, ip, ()=>{
+  let address = server.address();
+  process.env.ADDRESS = JSON.stringify(address);
+  console.log(appTitle + " server on " + JSON.parse(process.env.ADDRESS).address + " port : " + port)
 
-console.log(appTitle + " server on  port : " + port)
+})
+
+//Initialization.initializeDatabase();
+
 
 module.exports = app;
